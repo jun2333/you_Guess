@@ -1,0 +1,15 @@
+.main{
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    background: url('../img/robotHappy.png');
+    color:#fff;
+    font-size: 30px;
+}
+body{
+    /* color: #000;
+    background: red; */
+}
+
+
+
