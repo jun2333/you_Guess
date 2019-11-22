@@ -12,7 +12,7 @@ export default context => {
             console.log(context.url);
             console.log(matchedComponents);
 
-            if (!matchedComponents.length) {
+            if (!matchedComponents.length && context.url!=='/favicon.ico') {
                 return reject({ code: 404 });
             }
 

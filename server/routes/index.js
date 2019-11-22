@@ -9,9 +9,9 @@ const clientManifest = require(path.resolve(__dirname, '../../dist/vue-ssr-clien
 const template = fs.readFileSync(path.resolve(__dirname, '../../dist/index.ssr.html'), 'utf-8');
 
 const renderer = createBundleRenderer(serverBundle, {
-    runInNewContext: false,
-    template: template,
-    clientManifest: clientManifest
+    runInNewContext: false,//推荐
+    template: template,//页面模板(可选)
+    clientManifest: clientManifest //客户端构建manifest(可选)
 });
 
 router.get('*',async (ctx, next) => {
@@ -28,7 +28,7 @@ router.get('*',async (ctx, next) => {
         console.log(html) // 渲染完成
     })
     ssrStream.on('error', err => {
-        console.log(err)
+        // console.log(err)
     })
     ctx.status = 200;
     ctx.type = 'html';

@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Bar from '../components/Bar'
+import Index from '../components/Index'
 
 Vue.use(Router);
 
 function createRouter() {
     const routes = [
         {
+            path: '/',
+            component: () => import('../components/Index.vue')
+        },
+        {
+            path: '/index',
+            component: () => import('../components/Index.vue')
+        },
+        {
             path: '/bar',
-            component: Bar
+            component: () => import('../components/Bar.vue')
         },
         {
             path: '/foo',
