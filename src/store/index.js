@@ -1,19 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {
+    getData
+} from '../api/bar'
 
 Vue.use(Vuex);
-
-const fetchBar = function () {
-    return new Promise((resolve, reject) => {
-        fetch('/data.json',{
-            method:'POST'
-        }).then(res=>{
-            resolve(res.json())
-        }).catch(e=>{
-            reject(e)
-        })
-    })
-}
 
 function createStore() {
     const store = new Vuex.Store({
@@ -28,8 +19,10 @@ function createStore() {
         },
 
         actions: {
-            fetchBar({ commit }) {
-                return fetchBar().then(data => {
+            fetchBar({
+                commit
+            }) {
+                getData().then(data => {
                     commit('SET_BAR', data);
                 }).catch(error => {
                     console.error(error)
@@ -38,12 +31,12 @@ function createStore() {
         }
     });
 
-    if (typeof window !== 'undefined' && window.__INITIAL_STATE__) {
+    /* if (typeof window !== 'undefined' && window.__INITIAL_STATE__) {
         console.log(window.__INITIAL_STATE__);
         store.replaceState(window.__INITIAL_STATE__)
     } else {
         console.log('no browser')
-    }
+    } */
 
     return store;
 }

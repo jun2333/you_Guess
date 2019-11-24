@@ -1,5 +1,4 @@
 const Koa = require('koa')
-const http = require('http')
 const static = require('koa-static')
 const Router = require('koa-router')
 const getVip = require('./data/getVip')
@@ -28,10 +27,6 @@ app.use(async (ctx, next) => {
     }
 });
 
-
-
-// app.use(static(__dirname, 'public'))
-
 // 响应时间输出中间件
 app.use(async (ctx, next) => {
     console.log(__dirname)
@@ -58,21 +53,21 @@ app.use(async (ctx, next) => {
 app.use(getVip)
 
 //配置模板引擎
-const hbs = require('koa-hbs')
+/* const hbs = require('koa-hbs')
 app.use(hbs.middleware({
-    viewPath: __dirname + '/views',//视图根目录
-    defaultLayout: 'layout',//默认布局页面
-    partialsPath: __dirname + '/views/partials',//设置partial目录
+    viewPath: __dirname + '/views', //视图根目录
+    defaultLayout: 'layout', //默认布局页面
+    partialsPath: __dirname + '/views/partials', //设置partial目录
     disableCache: true //开发阶段不缓存
-}))
+})) */
 
 
 //引入路由
-const staticMiddleware = require('./routes/static')
-const demo = require('./routes/demo')
+/* const staticMiddleware = require('./routes/static')
+const demo = require('./routes/demo') */
 const index = require('./routes/index')
-// app.use(staticMiddleware.routes())
-// app.use(demo.routes())
+/* app.use(staticMiddleware.routes())
+app.use(demo.routes()) */
 app.use(index.routes())
 app.use(router.allowedMethods())
 

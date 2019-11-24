@@ -12,7 +12,7 @@ export default {
   asyncData({ store }) {
     //使用 store.registerModule 惰性注册(lazy-register)这个模块
     store.registerModule("foo", fooStoreModule);
-    return store.dispatch("foo/inc");
+    return store.dispatch("foo/getFoo");
   },
   methods: {
     onHandleClick() {
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     fooCount() {
-      return this.$store.state.foo.count;
+      return this.$store.state.foo.data;
     }
   }
 };

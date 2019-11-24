@@ -38,6 +38,7 @@ module.exports = merge(base, {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.ssr.html'),
             filename: 'index.ssr.html',
+            favicon: path.resolve(__dirname, '../src/assets/img/favicon.ico'),
             files: {
                 js: 'client.bundle.js'
             },

@@ -1,15 +1,22 @@
-// store/modules/foo.js
+import {
+    getFoo
+} from '../../api/foo'
 export default {
     namespaced: true,
     // 重要信息：state 必须是一个函数，
     // 因此可以创建多个实例化该模块
     state: () => ({
-        count: 0
+        data: ''
     }),
     actions: {
-        inc: ({ commit }) => commit('inc')
+        async getFoo({commit}){
+            let res = await getFoo();
+            commit('setData',res)
+        }
     },
     mutations: {
-        inc: state => state.count++
+        setData(state,data){
+            state.data = data
+        }
     }
 }

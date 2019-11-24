@@ -1,11 +1,20 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackplugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+// CSS 提取应该只用于生产环境
+// 这样我们在开发过程中仍然可以热重载
+const resolve = (name) => path.resolve(__dirname, `../${name}`)
 
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.vue']
+        extensions: ['.js', '.vue'],
+        alias: {
+            vue$: "vue/dist/vue.esm.js",
+            "@": resolve("src")
+        }
     },
     output: {
         path: path.resolve(__dirname, '../dist'),
@@ -14,8 +23,7 @@ module.exports = {
     },
 
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.vue$/,
                 use: 'vue-loader'
             },
@@ -23,6 +31,7 @@ module.exports = {
                 test: /\.js$/,
                 use: 'babel-loader'
             },
+            // 重要：使用 vue-style-loader 替代 style-loader
             {
                 test: /\.css$/,
                 use: ['vue-style-loader', 'css-loader', 'postcss-loader']
@@ -32,15 +41,19 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        limit: 10000    // 10Kb
+                        limit: 10000 // 10Kb
                     }
                 }
             }
         ]
     },
-
-    plugins:[
+    
+    plugins: [
         new VueLoaderPlugin(),
-        new CopyWebpackplugin()
+        new CopyWebpackplugin(),
+        new ExtractTextPlugin({
+            filename: 'common.[chunkhash].css'
+        }),
+        // isProduction?new ExtractTextPlugin({ filename: 'common.[chunkhash].css' }):''
     ]
 }

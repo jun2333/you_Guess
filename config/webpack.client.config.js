@@ -4,12 +4,14 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const base = require('./webpack.base.config')
+const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
 
 module.exports = merge(base, {
     entry: {
         client: path.resolve(__dirname, '../src/entry-client.js')
     },
     plugins: [
+        new CleanWebpackPlugin(),
         // 此插件在输出目录中
         // 生成 `vue-ssr-client-manifest.json`。
         new VueSSRClientPlugin(),
@@ -23,7 +25,8 @@ module.exports = merge(base, {
         }), */
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html'),
-            filename: 'index.html'
+            filename: 'index.html',
+            favicon: path.resolve(__dirname, '../src/assets/img/favicon.ico'),
         })
     ],
     // 重要信息：这将 webpack 运行时分离到一个引导 chunk 中，
@@ -36,6 +39,31 @@ module.exports = merge(base, {
                     name: "manifest",
                     chunks: "initial",
                     minChunks: 2
+                }
+            }
+        }
+    },
+    devServer: {
+        historyApiFallback: true,
+        contentBase: '/',
+        quiet: false,
+        noInfo: false,
+        open: true,
+        hot: true,
+        inline: true,
+        lazy: false,
+        progress: true,
+        watchOptions: {
+            aggregateTimeout: 300
+        },
+        port: '8080',
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': '/'
                 }
             }
         }

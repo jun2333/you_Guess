@@ -22,10 +22,7 @@ export default {
   },
 
   mounted() {
-    // 因为服务端渲染只有 beforeCreate 和 created 两个生命周期，不会走这里
-    // 所以把调用 Ajax 初始化数据也写在这里，是为了供单独浏览器渲染使用
-    /* let store = this.$store;
-    fetchInitialData({ store }); */
+    console.log('foo组件生成')
   },
 
   computed: {
@@ -39,5 +36,6 @@ export default {
 <style>
 .bar {
   background: bisque;
+  color: red
 }
 </style>
