@@ -1,13 +1,13 @@
 const vipModel = require('../models/vip')
 
-const getVip = async(ctx,next) => {
-    if(ctx.accepts('html')==='html'){
-        ctx.state.vipData = await vipModel.find()
+const getVip = async (ctx, next) => {
+    let res = await vipModel.find();
+    ctx.status = 200;
+    ctx.body = {
+        msg: 'ok',
+        data: res,
+        code: '0'
     }
-    if(ctx.accepts('json')==='json'){
-        ctx.state.vipData = await vipModel.find()
-    }
-    await next()
 }
 
 module.exports = getVip

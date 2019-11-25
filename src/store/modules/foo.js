@@ -11,7 +11,7 @@ export default {
     actions: {
         async getFoo({commit}){
             let res = await getFoo();
-            commit('setData',res)
+            commit('setData',res.data)
         }
     },
     mutations: {

@@ -22,8 +22,8 @@ function createStore() {
             fetchBar({
                 commit
             }) {
-                getData().then(data => {
-                    commit('SET_BAR', data);
+                getData().then(res => {
+                    commit('SET_BAR', res.data);
                 }).catch(error => {
                     console.error(error)
                 })

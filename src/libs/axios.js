@@ -31,6 +31,12 @@ class HttpRequest {
     interceptors(instance, url) {
         // 请求拦截
         instance.interceptors.request.use(config => {
+            const token = window.localStorage.getItem("token");
+            if (token) {
+                // 判断是否存在token，如果存在的话，则每个http header都加上token
+                // Bearer是JWT的认证头部信息
+                config.headers.common["Authorization"] = "Bearer " + token;
+            }
             return config
         }, error => {
             return Promise.reject(error)
@@ -38,7 +44,10 @@ class HttpRequest {
         // 响应拦截
         instance.interceptors.response.use(res => {
             this.destroy(url)
-            const { data, status } = res
+            const {code, data, status } = res;
+            if(data.code ==='1004'||status ==='401') {
+                location.href = '/login'
+            }
             return data
         }, error => {
             this.destroy(url)

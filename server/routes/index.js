@@ -1,6 +1,9 @@
 const Router = require('koa-router')
 const path = require('path');
 const fs = require('fs');
+const jwtKoa = require('koa-jwt');
+const secret = require('../secret');
+const getVip = require('../data/getVip') 
 const {
     createBundleRenderer
 } = require('vue-server-renderer');
@@ -58,11 +61,6 @@ router.get('*', async (ctx, next) => {
     }
 })
 
-router.post('/data.json', async ctx => {
-    // ctx.set('Access-Control-Allow-Origin','*');
-    ctx.status = 200;
-    // ctx.response.type = 'json';
-    ctx.body = ctx.state.vipData
-})
+router.post('/data.json', jwtKoa({ secret }), getVip)
 
 module.exports = router

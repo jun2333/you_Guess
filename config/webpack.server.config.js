@@ -4,6 +4,8 @@ const nodeExternals = require('webpack-node-externals')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const base = require('./webpack.base.config')
+const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
+
 
 module.exports = merge(base, {
     // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
@@ -31,6 +33,7 @@ module.exports = merge(base, {
         libraryTarget: 'commonjs2'
     },
     plugins: [
+        new CleanWebpackPlugin(),
         // 这是将服务器的整个输出
         // 构建为单个 JSON 文件的插件。
         // 默认文件名为 `vue-ssr-server-bundle.json`

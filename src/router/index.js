@@ -21,6 +21,10 @@ function createRouter() {
         {
             path: '/foo',
             component: () => import('../components/Foo.vue')
+        },
+        {
+            path: '/login',
+            component: () => import('../components/Login.vue')
         }
     ];
 

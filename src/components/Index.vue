@@ -2,26 +2,18 @@
   <div>
     <router-link to="/bar">Goto Bar</router-link>
     <router-link to="/foo">Goto Foo</router-link>
+    <router-link to="/login">To Login</router-link>
+    <button @click="logout">Logout</button>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  beforeCreate() {
-    console.log("App.vue beforeCreate");
-  },
-
-  created() {
-    console.log("App.vue created");
-  },
-
-  beforeMount() {
-    console.log("App.vue beforeMount");
-  },
-
-  mounted() {
-    console.log("App.vue mounted");
+  methods:{
+    logout(){
+      localStorage.removeItem('token')
+    }
   }
 };
 </script>

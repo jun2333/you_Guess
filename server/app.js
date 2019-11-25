@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const static = require('koa-static')
 const Router = require('koa-router')
-const getVip = require('./data/getVip')
+const koaBody = require('koa-body')
 const mongoose = require('./db')
 const path = require('path')
 const fs = require('fs')
@@ -11,7 +11,7 @@ const router = new Router()
 
 app.use(static(path.resolve(__dirname, '../dist')))
 
-
+app.use(koaBody())
 //在最外层中间件处理错误
 app.use(async (ctx, next) => {
     try {
@@ -26,6 +26,22 @@ app.use(async (ctx, next) => {
         console.log('捕获到错误：', error.message);
     }
 });
+
+//处理token验证异常
+app.use((ctx, next) => {
+    return next().catch(e => {
+        if (e.status === 401) {
+            ctx.status = 200;
+            ctx.body = {
+                msg: '未登录',
+                code: '1004'
+            }
+        } else {
+            throw e
+        }
+    })
+})
+
 
 // 响应时间输出中间件
 app.use(async (ctx, next) => {
@@ -50,7 +66,6 @@ app.use(async (ctx, next) => {
 
 
 
-app.use(getVip)
 
 //配置模板引擎
 /* const hbs = require('koa-hbs')
@@ -66,9 +81,11 @@ app.use(hbs.middleware({
 /* const staticMiddleware = require('./routes/static')
 const demo = require('./routes/demo') */
 const index = require('./routes/index')
+const user = require('./routes/user')
 /* app.use(staticMiddleware.routes())
 app.use(demo.routes()) */
 app.use(index.routes())
+app.use(user.routes())
 app.use(router.allowedMethods())
 
 
