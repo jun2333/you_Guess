@@ -16,13 +16,16 @@ class UserController extends Controller {
   //根据id精确搜索
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.model.User.findByPk(toInt(ctx.params.id));
+    let res = [];
+    res.push(await ctx.model.User.findByPk(toInt(ctx.params.id)));
+    ctx.body = res;
   }
   //新建数据
   async create() {
     const ctx = this.ctx;
     const { name, age } = ctx.request.body;
-    const user = await ctx.model.User.create({ name, age });
+    const [created_at, updated_at] = [Date.now(), Date.now()];
+    const user = await ctx.model.User.create({ name, age, created_at, updated_at });
     ctx.status = 201;
     ctx.body = user;
   }
@@ -37,7 +40,8 @@ class UserController extends Controller {
     }
 
     const { name, age } = ctx.request.body;
-    await user.update({ name, age });
+    const updated_at = Date.now();
+    await user.update({ name, age, updated_at });
     ctx.body = user;
   }
   //根据id删除数据

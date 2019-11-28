@@ -9,6 +9,8 @@ module.exports = app => {
     age: INTEGER,
     created_at:DATE,
     updated_at:DATE
+  },{
+    timestamps: false,
   });
 
   return User;

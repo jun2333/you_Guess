@@ -17,7 +17,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1574760848022_6419';
 
   // add your middleware config here
-  config.middleware = ['report', 'reportError', 'login', 'gzip', 'compress'];
+  config.middleware = ['report', 'reportError', 'login', 'redirectPage', 'gzip', 'compress'];
 
   //配置静态文件地址
   config.static = {
@@ -27,11 +27,11 @@ module.exports = appInfo => {
 
   //配置数据库
   config.sequelize = {
-    dialect:'mysql',
-    host:'127.0.0.1',
+    dialect: 'mysql',
+    host: '127.0.0.1',
     password: '123456',
-    port:3306,
-    database:'egg-sequelize-doc-default'
+    port: 3306,
+    database: 'egg-sequelize-doc-default'
   }
 
   //线上发生错误时，重定向到这个页面
@@ -63,9 +63,10 @@ module.exports = appInfo => {
   }
   //配置登录拦截中间件
   config.login = {
-    enable: false,
-    whiteUrl:[
-      '/login'
+    enable: true,
+    whiteUrl: [
+      '/login',
+      '/'
     ]
   }
 
@@ -82,7 +83,7 @@ module.exports = appInfo => {
     key: 'egg_sess',
     maxAge: 60 * 1000,
     httpOnly: true,
-    signed:true
+    encrypt: true,
   }
   //关闭csrf
   config.security = {

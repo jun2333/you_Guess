@@ -5,5 +5,6 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.resources('user','/api/users',controller.user)
+  router.resources('user','/api/users',controller.user);
+  router.post('/api/login',controller.app.login);
 };

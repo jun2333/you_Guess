@@ -19,9 +19,9 @@
   <body>
     <div id="app">
       <el-button type="primary" style="margin: 5px" @click="mshow=true"
-        >新增</el-button
+        >Add</el-button
       >
-      <el-table :data="data">
+      <el-table :data="data" v-loading="loading" style="width: 50%">
         <el-table-column type="index"> </el-table-column>
         <el-table-column prop="name" label="名字" width="180">
         </el-table-column>
@@ -31,33 +31,20 @@
             <el-input
               v-model="search"
               size="mini"
-              placeholder="输入关键字搜索"
+              placeholder="输入id搜索"
+              @keyup.enter.native="handleSeach"
             />
           </template>
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="mini" @click="handleEdit(scope.row)"
               >Edit</el-button
             >
-            <!-- <el-button
+            <el-button
               type="danger"
               size="mini"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            > -->
-            <el-popover placement="top" width="160" v-model="confirmShow">
-              <p>这是一段内容这是一段内容确定删除吗？</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="confirmShow = false"
-                  >取消</el-button
-                >
-                <el-button type="primary" size="mini" @click="asd"
-                  >确定</el-button
-                >
-              </div>
-              <el-button type="danger" size="mini" slot="reference"
-                >删除</el-button
-              >
-            </el-popover>
+              @click="handleDelete(scope.row.id)"
+              >Delete</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -75,16 +62,51 @@
       </el-dialog>
     </div>
     <script>
+      axios.interceptors.request.use(
+        config => {
+          const token = window.localStorage.getItem("token");
+          if (token) {
+            // 判断是否存在token，如果存在的话，则每个http header都加上token
+            // Bearer是JWT的认证头部信息
+            config.headers.common["Authorization"] = "Bearer " + token;
+          }
+          return config;
+        },
+        err => {
+          return Promise.reject(err);
+        }
+      );
+
+      axios.interceptors.response.use(
+        response => {
+          const { status, data } = response;
+          if (data.code === 401) {
+            this.$message({
+              type: "warning",
+              message: "登录超时，请重新登录!"
+            });
+            location.href = "/login.html";
+            return;
+          }
+          console.log(status);
+          return response;
+        },
+        err => {
+          return Promise.reject(err);
+        }
+      );
       new Vue({
         el: "#app",
         data() {
           return {
             confirmShow: false,
+            loading: false,
             search: "",
-            title: "添加",
+            title: "Add",
             formData: {
               name: "",
-              age: null
+              age: "",
+              id: ""
             },
             mshow: false,
             data: []
@@ -95,34 +117,77 @@
         },
         methods: {
           async queryList() {
-            let res = await axios({
-              url: "/api/users",
-              method: "get"
-            });
+            this.loading = true;
+            let res = await this.handleData("", "get");
             this.data = res.data;
+            this.loading = false;
+          },
+          async handleSeach() {
+            if (!this.search) this.queryList();
+            let res = await this.handleData(this.search, "get");
+            this.$message({
+              type: "success",
+              message: "查询成功!"
+            });
+            if (!res.data[0]) return (this.data = []);
+            this.data = res.data;
+          },
+          handleAdd() {
+            this.title = "Add";
+            this.formData.name = "";
+            this.formData.age = "";
+            this.formData.id = "";
           },
           async submit() {
             let { name, age } = this.formData;
             age = Number(age);
-            await axios({
-              url: "/api/users",
-              method: "post",
-              data: {
-                name,
-                age
-              }
-            });
+            let method, id;
+            id = this.formData.id ? this.formData.id : "";
+            if (this.title === "Add") method = "post";
+            else method = "put";
+            await this.handleData(id, method, { name, age });
             this.mshow = false;
-            this.queryList()
+            this.queryList();
+            this.$message({
+              type: "success",
+              message: "操作成功!"
+            });
           },
-          handleEdit() {
-            alert("编辑");
+          handleEdit(row) {
+            this.mshow = true;
+            this.title = "Edit";
+            this.formData = row;
           },
-          handleDelete() {
-            alert(123);
+          handleDelete(id) {
+            this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(async () => {
+                await this.handleData(id, "delete");
+                this.queryList();
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              })
+              .catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消删除"
+                });
+              });
           },
-          asd() {
-            alert(111);
+          handleData(id = null, method, data = {}) {
+            let params;
+            if (id) params = `/${id}`;
+            else params = "";
+            return axios({
+              url: `/api/users${params}`,
+              method: method,
+              data: data
+            });
           }
         }
       });
