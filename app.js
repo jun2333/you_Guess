@@ -17,7 +17,7 @@ const redisClient = redis.createClient(6379, 'localhost');
 
 app.keys = [config.keys];
 
-redisClient.auth('123456');
+redisClient.auth(config.redisConf.options.auth_pass);
 const client = wrapper(redisClient);
 
 config.SESS_CONFIG.store = redisStore({ client });//使用redis存储session
