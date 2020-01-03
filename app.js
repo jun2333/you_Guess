@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const http = require('http');
-const ioControler = require('./controlers/io');
+const chatControler = require('./controlers/chat');
 const app = new Koa();
 const router = require('./routes/index.js');
 const Static = require('koa-static');
@@ -78,7 +78,7 @@ const server = http.createServer(app.callback());
 const io = require('socket.io')(server);
 //使用命名空间进行软隔离
 const chat = io.of('chat').on('connection', socket => {
-    let ioCtrl = new ioControler(chat);//ioControler是一个简易聊天室的类
+    let ioCtrl = new chatControler(chat);//chatControler是一个简易聊天室的类
     ioCtrl.init(socket);
 });
 module.exports = server;
