@@ -1,2 +1,3 @@
-const app = require('./app');
-app.listen(3000)
+const server = require('./app');
+
+server.listen(3000)
