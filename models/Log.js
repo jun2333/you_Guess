@@ -8,6 +8,7 @@ const logSchema = new mongoose.Schema({
     status: Number,
     res: String,
     desc: String,
+    time: String,
     date: { type: Date, default: Date.now },
 });
 

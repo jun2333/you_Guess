@@ -6,7 +6,7 @@ class logServer {
         await log.save();
     }
     static async all(condition, page, size) {
-        let logs = await logModel.find(condition, '_id userName method url date host status res desc').skip((page - 1) * size).limit(size).sort({ _id: -1 });
+        let logs = await logModel.find(condition, '_id userName method url date host status res time desc').skip((page - 1) * size).limit(size).sort({ _id: -1 });
         let count = await logModel.count(condition);
         return { logs, page: { page, size, count } }
     }

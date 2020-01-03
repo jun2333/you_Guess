@@ -2,7 +2,7 @@ const logController = require('../controlers/log');
 const { logConf } = require('../config');
 
 module.exports = async (ctx, next) => {
-    if (!logConf.enable || logConf.whiteMethods.includes(ctx.method) || !ctx.session.userinfo) return await next();
+    if (!logConf.enable || logConf.whiteMethods.includes(ctx.method)) return await next();
     global.log = {
         userName: ctx.session.userinfo,
         method: ctx.method,
@@ -10,6 +10,7 @@ module.exports = async (ctx, next) => {
         url: ctx.url,
         status: null,
         desc: null,
+        time: null,
         res: null
     };
     await next();
@@ -17,5 +18,6 @@ module.exports = async (ctx, next) => {
         global.log.status = ctx.response.status;
         global.log.res = JSON.stringify(ctx.response.body);
         logController.add(global.log);
+        global.log = null;
     }
 }

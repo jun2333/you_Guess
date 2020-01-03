@@ -27,5 +27,6 @@ router.get('/api/user', userControler.findAll);
 router.post('/api/upload', fileControler.uploadFile);
 router.get('/api/download/:name', fileControler.downloadFile);
 router.get('/api/downloadAll', fileControler.downloadAll);
+router.get('/api/export/:name',fileControler.exportUser);
 
 module.exports = router

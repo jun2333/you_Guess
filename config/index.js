@@ -28,14 +28,17 @@ module.exports = {
     },
     authConf: {
         enable: true,
-        white: ['/api/login', '/api/logout','/api/upload']
+        white: ['/api/login', '/api/logout', '/api/upload', '/api/export/user']
     },
     logConf: {
-        enable: false,
+        enable: true,
         whiteMethods: ['GET']
     },
+    errConf: {
+        enable: true,
+    },
     crossConf: {
-        enable:false,
+        enable: false,
         allowOrigin: ['*'],
         allowMethods: [],
         allowHeaders: [],

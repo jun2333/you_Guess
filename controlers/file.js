@@ -3,6 +3,8 @@ const path = require('path');
 const crypto = require('crypto');
 const send = require('koa-send');
 const archiver = require('archiver');
+const userService = require('../services/user');
+const exportService = require('../services/exportData');
 
 class fileControler {
     static async uploadFile(ctx) {
@@ -26,6 +28,17 @@ class fileControler {
             readStream.pipe(writeStream);
         }
         return ctx.body = { status: 1, msg: '上传成功' };
+    }
+    static async exportUser(ctx) {
+        let name = ctx.params.name;
+        if (name !== 'user') return ctx.status = 404;
+        let userList = await userService.all();
+        let title = ['id', 'nick', 'name', 'password'];//定义表头数组
+        let xlsxData = exportService.format(title, userList);//格式化表格数据
+        exportService.toXlsx(name, xlsxData);//生成表格文件
+        let filePath = `public/upload/${name}.xlsx`;//获取文件路径
+        ctx.attachment(filePath);//ctx.attachment 将 Content-Disposition 设置为 “附件” 以指示客户端提示下载
+        await send(ctx, filePath)
     }
     static async downloadFile(ctx) {
         let filename = ctx.params['name'];
