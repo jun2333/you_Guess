@@ -1,4 +1,4 @@
-const ErrService = require('../services/errLog');
+const ErrService = require('../services/err_log');
 
 class ErrController {
     static async add(content) {

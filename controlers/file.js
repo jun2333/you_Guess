@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const send = require('koa-send');
 const archiver = require('archiver');
 const UserService = require('../services/user');
-const ExportService = require('../services/exportData');
+const ExportService = require('../services/export_data');
 
 class FileControler {
     static async uploadFile(ctx) {
