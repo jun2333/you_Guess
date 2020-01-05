@@ -1,12 +1,12 @@
-const userService = require('../services/user');
+const UserService = require('../services/user');
 
-class anthControler {
+class AnthControler {
     static async login(ctx) {
         let { userName, password } = ctx.request.body;
         if (!userName || !password) {
             return ctx.fail(400, '缺少参数');
         }
-        let res = await userService.findOne({ userName }, { password: 1 });
+        let res = await UserService.findOne({ userName }, { password: 1 });
         if (!res) {
             return ctx.fail(404, '用户不存在');
         } else if (res.password === password) {
@@ -24,4 +24,4 @@ class anthControler {
 }
 
 
-module.exports = anthControler;
+module.exports = AnthControler;

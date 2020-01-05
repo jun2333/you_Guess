@@ -1,6 +1,6 @@
 const logModel = require('../models/Log');
 
-class logServer {
+class LogServer {
     static async add(conetnt) {
         let log = new logModel(conetnt);
         await log.save();
@@ -12,4 +12,4 @@ class logServer {
     }
 }
 
-module.exports = logServer;
+module.exports = LogServer;

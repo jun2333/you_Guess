@@ -1,6 +1,6 @@
 const errModel = require('../models/Error.js');
 
-class errService {
+class ErrService {
     static async add(content) {
         let err = new errModel(content);
         err.save()
@@ -12,4 +12,4 @@ class errService {
     }
 }
 
-module.exports = errService;
+module.exports = ErrService;

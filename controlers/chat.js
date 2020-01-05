@@ -1,6 +1,6 @@
 let onlineUsers = {};
 let onlineCount = 0;
-class ioControler {
+class IoControler {
     constructor(io) {
         this.io = io;
     }
@@ -70,4 +70,4 @@ class ioControler {
     }
 }
 
-module.exports = ioControler;
+module.exports = IoControler;

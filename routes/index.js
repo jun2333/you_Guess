@@ -1,32 +1,32 @@
 const Router = require('koa-router');
-const userControler = require('../controlers/user');
-const fileControler = require('../controlers/file');
-const anthControler = require('../controlers/auth');
-const logControler = require('../controlers/log');
+const UserControler = require('../controlers/user');
+const FileControler = require('../controlers/file');
+const AnthControler = require('../controlers/auth');
+const LogControler = require('../controlers/log');
 
 
 const router = new Router();
 
 //log
-router.get('/api/log',logControler.all);
+router.get('/api/log',LogControler.all);
 
 //auth
-router.post('/api/login', anthControler.login);
-router.post('/api/logout', anthControler.logout);
+router.post('/api/login', AnthControler.login);
+router.post('/api/logout', AnthControler.logout);
 
 //user
-router.get('/api/user/:name', userControler.findOne);
-router.post('/api/user', userControler.createOne);
-router.put('/api/user', userControler.updateOne);
-router.delete('/api/user/:name', userControler.removeOne);
-router.post('/api/user', userControler.create);
-router.delete('/api/user', userControler.remove);
-router.get('/api/user', userControler.findAll);
+router.get('/api/user/:name', UserControler.findOne);
+router.post('/api/user', UserControler.createOne);
+router.put('/api/user', UserControler.updateOne);
+router.delete('/api/user/:name', UserControler.removeOne);
+router.post('/api/user', UserControler.create);
+router.delete('/api/user', UserControler.remove);
+router.get('/api/user', UserControler.findAll);
 
 //file
-router.post('/api/upload', fileControler.uploadFile);
-router.get('/api/download/:name', fileControler.downloadFile);
-router.get('/api/downloadAll', fileControler.downloadAll);
-router.get('/api/export/:name',fileControler.exportUser);
+router.post('/api/upload', FileControler.uploadFile);
+router.get('/api/download/:name', FileControler.downloadFile);
+router.get('/api/downloadAll', FileControler.downloadAll);
+router.get('/api/export/:name',FileControler.exportUser);
 
 module.exports = router

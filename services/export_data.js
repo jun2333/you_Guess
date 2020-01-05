@@ -2,7 +2,7 @@ const xlsx = require('node-xlsx');
 const fs = require('fs');
 const path = require('path');
 
-class exportService {
+class ExportService {
     static format(title, data) {
         let dataArr = [];
         dataArr.push(title);
@@ -28,4 +28,4 @@ class exportService {
     }
 }
 
-module.exports = exportService;
+module.exports = ExportService;

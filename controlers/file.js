@@ -3,10 +3,10 @@ const path = require('path');
 const crypto = require('crypto');
 const send = require('koa-send');
 const archiver = require('archiver');
-const userService = require('../services/user');
-const exportService = require('../services/exportData');
+const UserService = require('../services/user');
+const ExportService = require('../services/exportData');
 
-class fileControler {
+class FileControler {
     static async uploadFile(ctx) {
         const file = ctx.request.files.file;//获取上传文件
         const hash = crypto.createHash('md5');
@@ -32,10 +32,10 @@ class fileControler {
     static async exportUser(ctx) {
         let name = ctx.params.name;
         if (name !== 'user') return ctx.status = 404;
-        let userList = await userService.all();
+        let userList = await UserService.all();
         let title = ['id', 'nick', 'name', 'password'];//定义表头数组
-        let xlsxData = exportService.format(title, userList);//格式化表格数据
-        exportService.toXlsx(name, xlsxData);//生成表格文件
+        let xlsxData = ExportService.format(title, userList);//格式化表格数据
+        ExportService.toXlsx(name, xlsxData);//生成表格文件
         let filePath = `public/upload/${name}.xlsx`;//获取文件路径
         ctx.attachment(filePath);//ctx.attachment 将 Content-Disposition 设置为 “附件” 以指示客户端提示下载
         await send(ctx, filePath)
@@ -69,4 +69,4 @@ class fileControler {
     }
 }
 
-module.exports = fileControler;
+module.exports = FileControler;

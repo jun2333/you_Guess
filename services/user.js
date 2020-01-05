@@ -1,6 +1,6 @@
 const User = require('../models/User');
 
-class userService {
+class UserService {
     static async all(condition = {}, page = 1, size = 10) {
         return await User.find(condition, '_id nick userName password').skip((page - 1) * size).limit(size).sort({ _id: 1 });
     }
@@ -27,4 +27,4 @@ class userService {
     }
 }
 
-module.exports = userService;
+module.exports = UserService;
