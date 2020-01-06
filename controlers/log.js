@@ -1,4 +1,4 @@
-const LogService = require('../services/log');
+const LogService = require('../services/access_log');
 
 class LogController {
     static async add(content) {

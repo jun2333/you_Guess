@@ -5,10 +5,10 @@ const app = new Koa();
 const router = require('./routes/index.js');
 const Static = require('koa-static');
 const path = require('path');
+const { logger, accessLogger } = require('./logger.js');
 const responseMiddleware = require('./middleware/response');
 const authMiddleware = require('./middleware/auth');
 const logMiddleware = require('./middleware/log');
-const errMiddleware = require('./middleware/err');
 const crossMiddleware = require('./middleware/crossorigin');
 const koaBody = require('koa-body');
 const config = require('./config');
@@ -25,8 +25,7 @@ const client = wrapper(redisClient);
 
 config.SESS_CONFIG.store = redisStore({ client });//使用redis存储session
 
-
-app.use(errMiddleware);//错误日志中间件
+app.use(accessLogger());//访问日志中间件
 
 //错误捕获
 app.use(async (ctx, next) => {
@@ -44,6 +43,7 @@ app.use(async (ctx, next) => {
     const start = Date.now();
     await next();
     const ms = Date.now() - start;
+    logger.info(`${ctx.request.method} ${ctx.request.url}: ${ms}ms`);
     console.log(`${ctx.request.method} ${ctx.request.url}: ${ms}ms`);
     if (global.log) {
         global.log.time = `${ms}ms`;
@@ -67,10 +67,11 @@ app.use(router.routes());//路由中间件
 
 //监听错误
 app.on('error', (err, ctx) => {
-    console.log('小问题没得事:', err);
-    if (global.err) {
+    console.error('小问题没得事:', err);
+    logger.error(err);
+    /* if (global.err) {
         global.err.desc = err;//记录程序错误日志
-    }
+    } */
     // ctx.throw(err);
 })
 

@@ -29,6 +29,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "koa-bodyparser": "^4.2.1"
+    "koa-bodyparser": "^4.2.1",
+    "koa-log4": "^2.3.2"
   }
 }

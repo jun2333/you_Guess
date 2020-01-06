@@ -31,11 +31,8 @@ module.exports = {
         white: ['/api/login', '/api/logout', '/api/upload', '/api/export/user']
     },
     logConf: {
-        enable: true,
+        enable: false,
         whiteMethods: ['GET']
-    },
-    errConf: {
-        enable: true,
     },
     crossConf: {
         enable: false,

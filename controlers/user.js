@@ -5,6 +5,7 @@ class UserControler {
     static async findAll(ctx) {
         let res;
         let count;
+        asda();
         res = JSON.parse(await getAsync('userList'));//从redis取缓存数据
         if (!res) {
             res = await UserService.all();//查询mongoDB
