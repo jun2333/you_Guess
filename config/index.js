@@ -1,9 +1,15 @@
 module.exports = {
     keys: 'some secret',
-    db: {
+    mongoConf: {
         host: '127.0.0.1',
         port: 27017,
         username: 'test-admin',
+        password: '123456',
+        database: 'test'
+    },
+    mysqlConf: {
+        host: 'localhost',
+        username: 'root',
         password: '123456',
         database: 'test'
     },

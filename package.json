@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "koa-bodyparser": "^4.2.1",
-    "koa-log4": "^2.3.2"
+    "koa-log4": "^2.3.2",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.3"
   }
 }
