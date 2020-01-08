@@ -10,7 +10,7 @@ log4js.configure({
 			compress: true, // 缩成.gz格式
 			pattern: '-yyyy-MM-dd.log',//通过日期分割文件
 			alwaysIncludePattern: true, //文件名始终以日期区分
-			filename: path.join('logs/', 'access.log'),
+			filename: path.join('logs/', 'access'),
 			keepFileExt: true,//切割的日志保留文件拓展名，false(默认)
 		},
 		application: {
@@ -19,7 +19,7 @@ log4js.configure({
 			// daysToKeep: 5, // 大于0则会删除x天之前的日志
 			pattern: '-yyyy-MM-dd.log', // yyyy-MM-dd-hh-mm=>每分钟切割一次 yyyy-mm-dd-hh =>每小时
 			alwaysIncludePattern: true, //文件名始终以日期区分
-			filename: path.join('logs/', 'application.log'),
+			filename: path.join('logs/', 'application'),
 			keepFileExt: true,
 		},
 		out: {
@@ -32,7 +32,8 @@ log4js.configure({
 		application: { appenders: ['application'], level: 'all' }
 	}
 });
-const accessLogger = () => log4js.koaLogger(log4js.getLogger('access'));
+// const accessLogger = () => log4js.koaLogger(log4js.getLogger('access'));//koaLogger封装的中间件
+const accessLogger = log4js.getLogger('access');
 const logger = log4js.getLogger('application');
 
 module.exports = {

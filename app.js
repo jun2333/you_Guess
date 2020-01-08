@@ -5,10 +5,11 @@ const app = new Koa();
 const router = require('./routes/index.js');
 const Static = require('koa-static');
 const path = require('path');
-const { logger, accessLogger } = require('./logger.js');
+const { logger } = require('./logger.js');
 const responseMiddleware = require('./middleware/response');
 const authMiddleware = require('./middleware/auth');
 const logMiddleware = require('./middleware/log');
+const accessLogMiddleware = require('./middleware/access_log');
 const crossMiddleware = require('./middleware/crossorigin');
 const koaBody = require('koa-body');
 const config = require('./config');
@@ -18,6 +19,10 @@ const wrapper = require('co-redis')
 const redis = require('redis');
 const redisClient = redis.createClient(6379, 'localhost');
 
+
+//挂载logger到app实例上
+app.logger = logger;
+
 app.keys = [config.keys];
 
 redisClient.auth(config.redisConf.options.auth_pass);
@@ -25,31 +30,19 @@ const client = wrapper(redisClient);
 
 config.SESS_CONFIG.store = redisStore({ client });//使用redis存储session
 
-app.use(accessLogger());//访问日志中间件
+app.use(accessLogMiddleware(config.accessLogConf));//访问日志中间件
 
 //错误捕获
 app.use(async (ctx, next) => {
     try {
+        console.log('捕获错误中间键');
         await next();
     } catch (err) {
         ctx.app.emit('error', err, ctx);
     }
 });
 
-app.use(logMiddleware);//请求日志中间件
-
-//请求日志
-app.use(async (ctx, next) => {
-    const start = Date.now();
-    await next();
-    const ms = Date.now() - start;
-    logger.info(`${ctx.request.method} ${ctx.request.url}: ${ms}ms`);
-    console.log(`${ctx.request.method} ${ctx.request.url}: ${ms}ms`);
-    if (global.log) {
-        global.log.time = `${ms}ms`;
-    }
-    ctx.response.set('X-Response-Time', `${ms}ms`);
-})
+// app.use(logMiddleware);//请求日志中间件
 
 app.use(session(config.SESS_CONFIG, app));//session
 
@@ -67,12 +60,8 @@ app.use(router.routes());//路由中间件
 
 //监听错误
 app.on('error', (err, ctx) => {
-    console.error('小问题没得事:', err);
+    console.error('错误:', err);
     logger.error(err);
-    /* if (global.err) {
-        global.err.desc = err;//记录程序错误日志
-    } */
-    // ctx.throw(err);
 })
 
 const server = http.createServer(app.callback());

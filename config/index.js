@@ -40,6 +40,9 @@ module.exports = {
         enable: false,
         whiteMethods: ['GET']
     },
+    accessLogConf: {
+        enable: true,
+    },
     crossConf: {
         enable: false,
         allowOrigin: ['*'],

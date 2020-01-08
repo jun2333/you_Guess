@@ -3,6 +3,7 @@ const UserControler = require('../controlers/user');
 const FileControler = require('../controlers/file');
 const AnthControler = require('../controlers/auth');
 const LogControler = require('../controlers/log');
+const ReadLogControler = require('../controlers/read_log');
 const TaskControler = require('../controlers/task');
 
 
@@ -10,6 +11,7 @@ const router = new Router();
 
 //log
 router.get('/api/log', LogControler.all);
+router.post('/api/readlog/:name/:time', ReadLogControler.line);
 
 //auth
 router.post('/api/login', AnthControler.login);
