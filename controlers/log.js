@@ -1,15 +1,21 @@
-const LogService = require('../services/access_log');
 
-class LogController {
-    static async add(content) {
-        await LogService.add(content)
+const LogServer = require('../services/log.js');
+
+class ReadLog {
+    static async query(ctx) {
+        let fileName = ctx.params.name;
+        let fileDate = ctx.params.time;
+        fileDate = fileDate.replace(/\//g, '-');
+        let fullName = `${fileName}-${fileDate}`;
+        try {
+            const myLogServer = new LogServer(fullName)
+            let res = await myLogServer.readLog();
+            ctx.success(res);
+        } catch (err) {
+            ctx.app.logger.error(err);
+            ctx.status = 404;
+        }
     }
+};
 
-    static async all(ctx) {
-        let { page = 1, size = 10, ...condition } = ctx.request.query;
-        let content = await LogService.all(condition, Number(page), Number(size));
-        ctx.success(content);
-    }
-}
-
-module.exports = LogController;
+module.exports = ReadLog;

@@ -27,7 +27,7 @@ module.exports = {
       ref: 'origin/koa-pro',
       repo: 'https://github.com/jun2333/you_Guess.git',
       path: '/root/www/koa-pro',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'npm install && pm2 reload pm2/app.config.js --env production && pm2 reload pm2/schedule.config.js'
     }
   }
 };
