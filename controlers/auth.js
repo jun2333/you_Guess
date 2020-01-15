@@ -11,7 +11,6 @@ class AnthControler {
             return ctx.fail(404, '用户不存在');
         } else if (res.password === password) {
             ctx.session.userinfo = userName;
-            if(global.log) global.log.desc = `${userName}登录`;//记录登录日志
             ctx.success();
         } else {
             ctx.fail(401, '密码错误');

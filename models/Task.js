@@ -8,4 +8,4 @@ const Task = sequelize.define('task', {
     enddate: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW }
 })
 
-module.exports = { Task, Sequelize };
+module.exports = Task;

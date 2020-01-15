@@ -1,4 +1,4 @@
-const { Task, Sequelize } = require('../models/Task.js');
+const Task = require('../models/Task.js');
 
 class TaskService {
     static async init(flag) {

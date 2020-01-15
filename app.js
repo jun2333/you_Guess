@@ -8,7 +8,6 @@ const path = require('path');
 const { logger } = require('./logger.js');
 const responseMiddleware = require('./middleware/response');
 const authMiddleware = require('./middleware/auth');
-const logMiddleware = require('./middleware/log');
 const accessLogMiddleware = require('./middleware/access_log');
 const crossMiddleware = require('./middleware/crossorigin');
 const koaBody = require('koa-body');
@@ -35,7 +34,6 @@ app.use(accessLogMiddleware(config.accessLogConf));//访问日志中间件
 //错误捕获
 app.use(async (ctx, next) => {
     try {
-        console.log('捕获错误中间键');
         await next();
     } catch (err) {
         ctx.app.emit('error', err, ctx);

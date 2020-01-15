@@ -3,8 +3,9 @@ const UserControler = require('../controlers/user');
 const FileControler = require('../controlers/file');
 const AnthControler = require('../controlers/auth');
 const LogControler = require('../controlers/log');
-const LogControler = require('../controlers/log');
 const TaskControler = require('../controlers/task');
+const CategoryControler = require('../controlers/category');
+const QuestionControler = require('../controlers/question');
 
 
 const router = new Router();
@@ -37,5 +38,16 @@ router.post('/api/task', TaskControler.createOne);
 router.get('/api/task/:id', TaskControler.findOne);
 router.delete('/api/task/:id', TaskControler.removeOne);
 router.put('/api/task/:id', TaskControler.updateOne);
+
+//category
+router.get('/api/category/:cateKey', CategoryControler.find);
+router.post('/api/category/:cateKey', CategoryControler.create);
+router.put('/api/category/:cateKey', CategoryControler.update);
+router.put('/api/categoryOrder', CategoryControler.updateOrder);
+router.delete('/api/category/:cateKey', CategoryControler.remove);
+
+//question
+router.get('/api/questions', QuestionControler.find);
+router.post('/api/questions', QuestionControler.create);
 
 module.exports = router

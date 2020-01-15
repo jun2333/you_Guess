@@ -12,10 +12,14 @@ class FileControler {
         const hash = crypto.createHash('md5');
         hash.update(file.name.split('.')[0]);//将文件名进行md5签名
         const readStream = fs.createReadStream(file.path);
-        let filePath = path.join(process.cwd(), '/public/upload') + `/${hash.digest('hex')}.${file.name.split('.')[1]}`;//通过process.cwd()获取根目录
+        let hashName = hash.digest('hex');
+        let filePath = path.join(process.cwd(), '/public/upload') + `/${hashName}.${file.name.split('.')[1]}`;//通过process.cwd()获取根目录
         const writeStream = fs.createWriteStream(filePath);
         readStream.pipe(writeStream);
-        return ctx.body = { status: 1, msg: '上传成功' };
+        return ctx.success(`http://localhost:3000/upload/${hashName}.${file.name.split('.')[1]}`);
+    }
+    static async uploadFilePre(ctx) {
+        ctx.success()
     }
     static async uploadfiles(ctx) {
         const files = ctx.request.files.file;

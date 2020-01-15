@@ -11,7 +11,7 @@ module.exports = {
         host: 'localhost',
         username: 'root',
         password: '123456',
-        database: 'test'
+        database: 'help'
     },
     redisConf: {
         host: '127.0.0.1',
@@ -33,7 +33,7 @@ module.exports = {
         signed: true, // 签名
     },
     authConf: {
-        enable: true,
+        enable: false,
         white: ['/api/login', '/api/logout', '/api/upload', '/api/export/user']
     },
     logConf: {
@@ -44,9 +44,9 @@ module.exports = {
         enable: true,
     },
     crossConf: {
-        enable: false,
-        allowOrigin: ['*'],
-        allowMethods: [],
+        enable: true,
+        allowOrigin: ['http://localhost:8080'],
+        allowMethods: ['POST','GET','PUT','DELETE'],
         allowHeaders: [],
         allowCredentials: true,
     }
