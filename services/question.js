@@ -8,7 +8,12 @@ class QuestionService {
         return res;
     }
     static async find(condition, attributes = ['*'], page = 1, size = 10) {
-        let res = await Question.findAndCountAll({ include: [{ model: QuestionCount, as: 'QuestionCount', attributes: ['view_cnt'] }] }, { //预查询include
+        let res = await Question.findAndCountAll({
+            include: [
+                {
+                    model: QuestionCount, as: 'QuestionCount', attributes: ['view_cnt']
+                }
+            ],//预查询include
             where: condition,
             attributes,
             raw: true,
@@ -17,7 +22,13 @@ class QuestionService {
             limit: size
         })
         res = JSON.parse(JSON.stringify(res));
-        console.log(res);
+        return res;
+    }
+    static async findOne(condition, attributes) {
+        let res = await Question.findOne({
+            where: condition,
+            attributes
+        });
         return res;
     }
     static async updateOne(content, condition) {

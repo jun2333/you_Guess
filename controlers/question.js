@@ -31,29 +31,66 @@ class QuestionControler {
         }
 
     }
+    static async findOneById(ctx) {
+        let id = ctx.params.id;
+        let attributes = [['language', 'lang'], ['cate_id', 'type'], 'title', 'order', 'content'];
+        try {
+            let res = await QuestionService.findOne({ id }, attributes);
+            ctx.success(res);
+        } catch (err) {
+            console.log(err);
+            ctx.fail(500, '系统错误');
+        }
+    }
     static async update(ctx) {
-        let cateKey = ctx.params.cateKey;
-        let { id, lang, value, order, iconfocus, iconblur } = ctx.query;
-        if (!cateKey || !lang || !value || !order || !iconfocus || !iconblur) return ctx.status = 400;
-        let content = {
-            key: cateKey,
+        let id = ctx.params.id;
+        let { lang, content, order, title, type } = ctx.request.body;
+        if (!id) return ctx.status = 400;
+        let contents = {
+            cateId: type,
             language: lang,
-            name: value,
-            icon_focus: iconfocus,
-            icon_blur: iconblur,
+            content: content,
+            title,
             order,
         };
         try {
-            let res = await QuestionService.updateOne(content, { id });
+            let res = await QuestionService.updateOne(contents, { id });
+            ctx.success();
+        } catch (err) {
+            ctx.fail(500, '系统错误');
+        }
+    }
+    static async modStatus(ctx) {
+        let id = ctx.params.id;
+        let status = Number(ctx.query.status);
+        if (!id || !status) return ctx.status = 400;
+        try {
+            let res = await QuestionService.updateOne({ status }, { id });
+            ctx.success();
+        } catch (err) {
+            ctx.fail(500, '系统错误');
+        }
+    }
+    static async modsOrder(ctx) {
+        let id = ctx.params.id;
+        let order = Number(ctx.query.order);
+        if (!id || !order) return ctx.status = 400;
+        try {
+            let res = await QuestionService.updateOne({ order }, { id });
             ctx.success();
         } catch (err) {
             ctx.fail(500, '系统错误');
         }
     }
     static async remove(ctx) {
-        let id = ctx.query.id;
-        let res = await QuestionService.remove({ id });
-        ctx.success(res)
+        let id = ctx.params.id;
+        try {
+            let res = await QuestionService.remove({ id });
+            ctx.success(res);
+        } catch (err) {
+            console.log(err);
+            ctx.fail(500, '系统错误');
+        }
     }
     static async updateOrder(ctx) {
         let { id, order } = ctx.request.body;

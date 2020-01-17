@@ -6,6 +6,7 @@ const LogControler = require('../controlers/log');
 const TaskControler = require('../controlers/task');
 const CategoryControler = require('../controlers/category');
 const QuestionControler = require('../controlers/question');
+const QuestionCountControler = require('../controlers/question_count');
 
 
 const router = new Router();
@@ -48,6 +49,14 @@ router.delete('/api/category/:cateKey', CategoryControler.remove);
 
 //question
 router.get('/api/questions', QuestionControler.find);
+router.get('/api/questions/:id', QuestionControler.findOneById);
 router.post('/api/questions', QuestionControler.create);
+router.put('/api/questions/:id', QuestionControler.update);
+router.put('/api/question/status/:id', QuestionControler.modStatus);
+router.put('/api/question/order/:id', QuestionControler.modsOrder);
+router.delete('/api/questions/:id', QuestionControler.remove);
+
+//questionCount
+router.get('/api/question_count/:id', QuestionCountControler.findOne);
 
 module.exports = router
