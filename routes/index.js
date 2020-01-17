@@ -7,6 +7,7 @@ const TaskControler = require('../controlers/task');
 const CategoryControler = require('../controlers/category');
 const QuestionControler = require('../controlers/question');
 const QuestionCountControler = require('../controlers/question_count');
+const DownloadControler = require('../controlers/download');
 
 
 const router = new Router();
@@ -58,5 +59,15 @@ router.delete('/api/questions/:id', QuestionControler.remove);
 
 //questionCount
 router.get('/api/question_count/:id', QuestionCountControler.findOne);
+router.put('/api/question_count/:id', QuestionCountControler.updateOne);
+
+//download
+router.get('/api/downloads', DownloadControler.find);
+router.get('/api/downloads/:id', DownloadControler.findOneById);
+router.post('/api/downloads', DownloadControler.create);
+router.put('/api/downloads/:id', DownloadControler.update);
+router.put('/api/download/status/:id', DownloadControler.modStatus);
+router.put('/api/download/order/:id', DownloadControler.modsOrder);
+router.delete('/api/downloads/:id', DownloadControler.remove);
 
 module.exports = router

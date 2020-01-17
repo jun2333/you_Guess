@@ -16,7 +16,11 @@ class FileControler {
         let filePath = path.join(process.cwd(), '/public/upload') + `/${hashName}.${file.name.split('.')[1]}`;//通过process.cwd()获取根目录
         const writeStream = fs.createWriteStream(filePath);
         readStream.pipe(writeStream);
-        return ctx.success(`http://localhost:3000/upload/${hashName}.${file.name.split('.')[1]}`);
+        let res = {
+            url: `http://localhost:3000/upload/${hashName}.${file.name.split('.')[1]}`,
+            size: file.size
+        }
+        return ctx.success(res);
     }
     static async uploadFilePre(ctx) {
         ctx.success()
