@@ -128,7 +128,7 @@
                 :on-exceeded-size="handleMaxSize"
                 :on-success="handleSuccess('defaultFocusIconList', 'iconfocus')"
                 style="display: inline-block;width:100px;height:100px"
-                action="http://127.0.0.1:3000/api/upload"
+                :action="uploadUrl"
               >
                 <div
                   style="width:100px;height:100px;display:flex;justify-content: center;align-items:center"
@@ -180,7 +180,7 @@
                 :on-exceeded-size="handleMaxSize"
                 :on-success="handleSuccess('defaultBlurIconList', 'iconblur')"
                 style="display: inline-block;width:100px;height:100px"
-                action="http://127.0.0.1:3000/api/upload"
+                :action="uploadUrl"
               >
                 <div
                   style="width:100px;height:100px;display:flex;justify-content: center;align-items:center"
@@ -287,6 +287,7 @@ export default {
     };
     return {
       language: "zh",
+      uploadUrl: "/api/upload",
       categoryColumns: categoryColumns(this),
       categoryData: [],
       select: {
@@ -487,10 +488,9 @@ export default {
     },
     handleSuccess(defaultFileListName, urlName) {
       return (res, file) => {
-        file.url = res.data.url;
+        file.url = location.origin + res.data.url;
         this[defaultFileListName] = [file];
-        this.editModal.formData[urlName] = res.data.url;
-        console.log();
+        this.editModal.formData[urlName] = location.origin + res.data.url;
         this.$nextTick(() => {
           this.focusIconList = this.$refs.uploadFocusIcon.fileList;
           this.blurIconList = this.$refs.uploadBlurIcon.fileList;

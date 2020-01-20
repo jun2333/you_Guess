@@ -12,9 +12,9 @@ export const login = ({ userName, password }) => {
     });
 };
 
-export const logout = _ => {
+export const logout = () => {
     return axios.request({
-        url: "logout",
+        url: "/api/logout",
         method: "post"
     });
 };

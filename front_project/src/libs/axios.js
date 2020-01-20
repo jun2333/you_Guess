@@ -56,17 +56,10 @@ class HttpRequest {
         })
         // 响应拦截
         instance.interceptors.response.use(res => {
-            this.destroy(url)
-            const { data } = res
-            if (data.code === 10103) {
-                sessionStorage.clear();
-                Cookies.remove('token');
-                Message.error('登录超时,请重新登录!');
-                router.push({
-                    name: 'login'
-                })
-                return false
-            } else if (data.status === 1) {
+            this.destroy(url);
+            const { data } = res;
+            console.log(res)
+            if (data.status === 1) {
                 return data
             } else {
                 if (data.msg) {
@@ -78,6 +71,16 @@ class HttpRequest {
             }
             // return data
         }, error => {
+            const { data, status } = error.response;
+            if (status === 401) {
+                sessionStorage.clear();
+                Cookies.remove('token');
+                Message.error('登录超时,请重新登录!');
+                router.push({
+                    name: 'login'
+                })
+                return false
+            }
             this.destroy(url)
             // addErrorLog(errorInfo)
             return Promise.reject(error)

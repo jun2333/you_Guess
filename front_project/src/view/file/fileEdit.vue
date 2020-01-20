@@ -9,9 +9,6 @@
           :disabled="isEdit"
           :lang="formData.lang"
         ></LanguageSelector>
-        <!-- <Select v-model="formData.lang" style="width:300px">
-                    <Option v-for="item in category" :value="item.id" :key="item.id">{{ item.value }}</Option>
-        </Select>-->
       </FormItem>
       <Row>
         <Col :span="12">
@@ -56,7 +53,7 @@
           <FormItem label="文件上传：">
             <Input v-model="formData.url" placeholder="文件下载链接" style="width:300px"></Input>
             <Upload
-              action="http://127.0.0.1:3000/api/upload"
+              :action="uploadUrl"
               style="display:inline-block;margin-left:10px;"
               :show-upload-list="false"
               :before-upload="()=> {
@@ -114,6 +111,7 @@ export default {
       }
     };
     return {
+      uploadUrl: "/api/upload",
       isEdit: false,
       spinShow: false,
       category: [],
@@ -197,7 +195,7 @@ export default {
       this.spinShow = false;
       if (res.status === 1) {
         this.$Message.success("文件上传成功！");
-        this.formData.url = res.data.url;
+        this.formData.url = location.origin + res.data.url;
         this.formData.size = res.data.size;
       } else if (res.status === 10012) {
         sessionStorage.clear();

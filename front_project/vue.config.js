@@ -12,12 +12,7 @@ const resolve = dir => {
 // 例如：https://www.foobar.com/my-app/
 // 需要将它改为'/my-app/'
 // iview-admin线上演示打包路径： https://file.iviewui.com/admin-dist/
-const BASE_URL =
-    process.env.NODE_ENV === "production"
-        // 打包至测试环境时应为
-        // ? "/back/"
-        ? "/help/back/"
-        : "";
+const BASE_URL = process.env.NODE_ENV === 'production'?'/help':'';
 
 module.exports = {
     // Project deployment base

@@ -1,4 +1,4 @@
-import { login, getUserInfo } from "@/api/user";
+import { login, logout, getUserInfo } from "@/api/user";
 import { setToken, getToken } from "@/libs/util";
 import Cookies from 'js-cookie';
 
@@ -58,8 +58,14 @@ export default {
             return new Promise((resolve, reject) => {
                 // commit("setToken", "");
                 // commit("setAccess", []);
-                Cookies.remove("token");
-                resolve();
+                logout().then(res => {
+                    Cookies.remove('token');
+                    if (res) {
+                        resolve();
+                    }
+                }).catch(err => {
+                    reject(err);
+                });
             });
         },
         // 获取用户相关信息

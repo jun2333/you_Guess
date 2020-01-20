@@ -178,7 +178,7 @@ export default [
             }
         ]
     },
-    {
+    /* {
         path: "/video",
         name: "video-list",
         component: Main,
@@ -231,7 +231,7 @@ export default [
                 component: () => import("@/view/message/message.vue")
             }
         ]
-    },
+    }, */
     {
         path: "/401",
         name: "error_401",
