@@ -17,7 +17,7 @@ class FileControler {
         const writeStream = fs.createWriteStream(filePath);
         readStream.pipe(writeStream);
         let res = {
-            url: `http://localhost:3000/upload/${hashName}.${file.name.split('.')[1]}`,
+            url: `/upload/${hashName}.${file.name.split('.')[1]}`,
             size: file.size
         }
         return ctx.success(res);

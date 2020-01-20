@@ -41,6 +41,7 @@ app.use(async (ctx, next) => {
 });
 
 // app.use(logMiddleware);//请求日志中间件
+app.use(crossMiddleware(config.crossConf));//跨域配置中间件
 
 app.use(session(config.SESS_CONFIG, app));//session
 
@@ -49,8 +50,6 @@ app.use(koaBody(config.uploadConf));//koa-body
 app.use(Static(path.join(__dirname, '/public')));//静态资源中间件
 
 app.use(responseMiddleware());//封装返回格式中间件
-
-app.use(crossMiddleware(config.crossConf));//跨域配置中间件
 
 app.use(authMiddleware);//验证登录中间件
 

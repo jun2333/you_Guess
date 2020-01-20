@@ -28,13 +28,14 @@ module.exports = {
     },
     SESS_CONFIG: {
         key: 'koa:sess', // 配置cookie的key值
-        maxAge: 60 * 60 * 1000, // 有效期
-        httpOnly: true, // 服务器有效(开启后禁止前端操作cookie)
+        maxAge: 24*60*60*1000, // 有效期
+        httpOnly: false, // 服务器有效(开启后禁止前端操作cookie)
         signed: true, // 签名
     },
     authConf: {
-        enable: false,
-        white: ['/api/login', '/api/logout', '/api/upload', '/api/export/user']
+        enable: true,
+        whitePath: ['/api/login', '/api/logout', '/api/upload', '/api/export/user'],
+        whiteMethod:['OPTIONS']
     },
     logConf: {
         enable: false,
