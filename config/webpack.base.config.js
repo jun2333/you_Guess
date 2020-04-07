@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: chenjun
+ * @Date: 2020-04-07 23:06:17
+ * @LastEditors: chenjun
+ * @LastEditTime: 2020-04-07 23:07:28
+ */
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackplugin = require('copy-webpack-plugin')
