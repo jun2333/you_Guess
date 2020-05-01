@@ -1,0 +1,29 @@
+<!--
+ * @Descripttion: 面向对象编程
+ * @version: 
+ * @Author: chenjun
+ * @Date: 2020-05-01 10:32:40
+ * @LastEditors: chenjun
+ * @LastEditTime: 2020-05-01 11:10:41
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+</head>
+<body>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.js"></script>
+  <script src="./jquery_extend.js"></script>
+  <script src="./component.js"></script>
+  <script src="./todolist.js"></script>
+  <script src="./todoitem.js"></script>
+  <script>
+    $(function(){
+      new TodoList($("body"))
+    })
+  </script>
+</body>
+</html>
