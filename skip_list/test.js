@@ -10,12 +10,12 @@ function test() {
             console.log('not found');
         }
     };
-    for (let i = 0; i < 32; i++) {
+    for (let i = 0; i < 5; i++) {
         skipList.insert(i);
     }
-    get(11)
-    skipList.delete(11);
-    get(11)
+    // get(11)
+    // skipList.delete(11);
+    skipList.toString()
 }
 
 test();
