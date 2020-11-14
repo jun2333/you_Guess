@@ -6,6 +6,7 @@ class SkipList {
     this.levelCount = 1;
     this.head = this.createNode();
     this.r = Math.random;
+    this.count = 0;
   }
   createNode(value, level) {
     let node = new Node(value, level);
@@ -13,8 +14,9 @@ class SkipList {
     return node;
   }
   insert(value) {
-    // let level = this.randomLevel();
-    let level = 10;
+    let level = this.randomLevel();
+    // console.log(this.count)
+    // let level = this.count < 2 ? 1 : this.count - 1;
     let newNode = this.createNode(value, level);
     let update = utils.createArray(Node, level);
     for (let i = level - 1; i >= 0; i--) {
@@ -32,6 +34,7 @@ class SkipList {
       newNode.forwards[i] = update[i].forwards[i];
       update[i].forwards[i] = newNode;
     }
+    this.count++
 
     if (this.levelCount < level) {
       this.levelCount = level;
@@ -54,12 +57,16 @@ class SkipList {
   }
   find(value) {
     let p = this.head;
+    let count = 0
     for (let i = this.levelCount - 1; i >= 0; i--) {
       while (p.forwards[i] !== null && p.forwards[i].data < value) {
         p = p.forwards[i];
+        count++
       }
+      count++
     }
     if (p.forwards[0] !== null && p.forwards[0].data === value) {
+      console.log('查询总次数', count - 1)
       return p.forwards[0];
     }
 

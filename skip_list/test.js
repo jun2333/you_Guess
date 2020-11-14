@@ -3,19 +3,24 @@ import SkipList from './SkipList';
 function test() {
     let skipList = new SkipList();
     const get = val => {
+        let start = Date.now();
         let res = skipList.find(val);
         if (res) {
-            console.log(res);
+            console.log(`查询耗时${Date.now()-start}ms`,res);
         } else {
             console.log('not found');
         }
     };
-    for (let i = 0; i < 5; i++) {
-        skipList.insert(i);
+    let start = Date.now();
+    for (let i = 0; i < 10000; i++) {
+        skipList.insert(i*2);
     }
-    // get(11)
-    // skipList.delete(11);
-    skipList.toString()
+    console.log(`插入总耗时${Date.now()-start}ms`);
+    // skipList.insert(1);
+    // skipList.insert(2);
+    
+    get(18000)
+
 }
 
 test();
